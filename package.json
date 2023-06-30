@@ -1,0 +1,32 @@
+{
+  "name": "@brthlmy/serverless-google-sheets-doorbell",
+  "version": "1.0.0",
+  "description": "Serverless netlify plugin to save own analytics in google sheets",
+  "type": "module",
+  "homepage": "https://brthlmy.com?utm_source=package-json",
+  "main": "./src/index.js",
+  "scripts": {
+    "bump": "npm --no-git-tag-version version"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brthlmy-com/eleventy-plugin-doorbell"
+  },
+  "keywords": [
+    "serverless",
+    "notifier",
+    "telegram"
+  ],
+  "author": {
+    "name": "Eric Bartholemy",
+    "url": "https://brthlmy.com"
+  },
+  "bugs": {
+    "url": "https://github.com/brthlmy-com/serverless-telegram-notifier"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "google-spreadsheet": "^4.0.2",
+    "node-fetch": "^3.3.1"
+  }
+}
