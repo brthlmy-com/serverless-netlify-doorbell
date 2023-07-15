@@ -34,11 +34,11 @@ async function handler(
       spreadsheetSheetTitle,
     );
     const doorbellAnalytics = new DoorbellAnalytics(event, apexDomain);
-    if (!doorbellAnalytics.isValidDomain) {
-      return DoorbellAnalytics.teapotResponse;
-    } else {
-      await doorbellSpreadsheet.handle(doorbellAnalytics.sheetRow);
-    }
+    await doorbellSpreadsheet.handle(doorbellAnalytics.sheetRow);
+    // if (!doorbellAnalytics.isValidDomain) {
+      // return DoorbellAnalytics.teapotResponse;
+    // } else {
+    // }
   }
   return DoorbellAnalytics.pixelResponse;
 }
