@@ -18,7 +18,7 @@ class DoorbellAnalytics {
     body: JSON.stringify({status: "I'm a teapot"}),
   };
   get isValidDomain() {
-    return this.validDomain == this.netlifyReferrer;
+    return new URL(this.validDomain).host == new URL(this.netlifyReferrer).host;
   }
   get sheetRow() {
     this.timestamp = new Date().toISOString();
