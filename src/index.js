@@ -3,14 +3,14 @@ import {DoorbellSpreadsheet} from './lib/google_spreadsheet.js';
 import {GoogleSpreadsheet} from 'google-spreadsheet';
 import {JWT} from 'google-auth-library';
 
-async function handler(event) {
+async function handler(event,processEnv = process.env) {
   const {
     GOOGLE_SERVICE_ACCOUNT_EMAIL,
     GOOGLE_PRIVATE_KEY,
     SPREADSHEET_ID,
     SPREADSHEET_SHEET_TITLE,
     APEX_DOMAIN,
-  } = process.env;
+  } = processEnv;
   if (
     GOOGLE_SERVICE_ACCOUNT_EMAIL &&
     GOOGLE_PRIVATE_KEY &&
