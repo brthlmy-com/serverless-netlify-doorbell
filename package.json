@@ -1,6 +1,6 @@
 {
   "name": "@brthlmy/serverless-netlify-doorbell",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Serverless netlify plugin to save own analytics in google sheets",
   "type": "module",
   "homepage": "https://brthlmy.com?utm_source=package-json",

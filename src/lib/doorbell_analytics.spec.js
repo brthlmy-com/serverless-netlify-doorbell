@@ -3,7 +3,7 @@ describe('Doorbell Analytics', () => {
   const domain = 'example.com';
   const netlifyHeaders = {
     headers: {
-      host: domain,
+      referer: domain,
       'user-agent': '',
       'x-language': '',
       'x-country': '',
@@ -82,17 +82,17 @@ describe('Doorbell Analytics', () => {
     test('creates referrer with https', () => {
       const subject = new DoorbellAnalytics(netlifyHeaders, domain);
       expect(subject.netlifyReferrer).toEqual(
-        `https://${netlifyHeaders.headers.host}`,
+        `https://${netlifyHeaders.headers.referer}`,
       );
     });
 
     test('creates referrer removes www.', () => {
       const subject = new DoorbellAnalytics(
-        {headers: {host: 'www.example.com'}},
+        {headers: {referer: 'www.example.com'}},
         domain,
       );
       expect(subject.netlifyReferrer).toEqual(
-        `https://${netlifyHeaders.headers.host}`,
+        `https://${netlifyHeaders.headers.referer}`,
       );
     });
 

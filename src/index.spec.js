@@ -17,7 +17,14 @@ const fakeProcess = {
     APEX_DOMAIN: 'domain',
   },
 };
-const validNetlifyEvent = { host: fakeProcess.env.APEX_DOMAIN };
+const config = {
+  googleServiceAccountEmail: fakeProcess.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+  googlePrivateKey: fakeProcess.env.GOOGLE_PRIVATE_KEY,
+  spreadsheetId: fakeProcess.env.SPREADSHEET_ID,
+  spreadsheetSheetTitle: fakeProcess.env.SPREADSHEET_SHEET_TITLE,
+  apexDomain: fakeProcess.env.APEX_DOMAIN,
+};
+const validNetlifyEvent = {referer: fakeProcess.env.APEX_DOMAIN};
 
 describe('NetlifyDoorbell', () => {
   beforeEach(function() {
@@ -30,11 +37,11 @@ describe('NetlifyDoorbell', () => {
   });
 
   test('no error', () => {
-    expect(() => handler(validNetlifyEvent)).not.toThrow();
+    expect(() => handler(validNetlifyEvent, config)).not.toThrow();
   });
 
   test('calls JWT with the process env variables', () => {
-    handler(validNetlifyEvent);
+    handler(validNetlifyEvent, config);
     expect(JWT).toHaveBeenCalledWith({
       email: fakeProcess.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
       key: fakeProcess.env.GOOGLE_PRIVATE_KEY,
@@ -46,7 +53,7 @@ describe('NetlifyDoorbell', () => {
     JWT.mockImplementation(() => {
       return {fake: 'jwt'};
     });
-    handler(validNetlifyEvent);
+    handler(validNetlifyEvent, config);
     expect(GoogleSpreadsheet).toHaveBeenCalledWith(
       fakeProcess.env.SPREADSHEET_ID,
       {fake: 'jwt'},
@@ -54,7 +61,7 @@ describe('NetlifyDoorbell', () => {
   });
 
   test('calls doorbellAnalytics', () => {
-    handler(validNetlifyEvent);
+    handler(validNetlifyEvent, config);
     expect(DoorbellAnalytics).toHaveBeenCalledWith(
       validNetlifyEvent,
       process.env.APEX_DOMAIN,
@@ -65,7 +72,7 @@ describe('NetlifyDoorbell', () => {
     GoogleSpreadsheet.mockImplementation(() => {
       return {fake: 'google_service'};
     });
-    handler(validNetlifyEvent);
+    handler(validNetlifyEvent, config);
     expect(DoorbellSpreadsheet).toHaveBeenCalledWith(
       {fake: 'google_service'},
       process.env.SPREADSHEET_SHEET_TITLE,
@@ -73,24 +80,27 @@ describe('NetlifyDoorbell', () => {
   });
 
   describe('returns', () => {
-
     test('teapotResponse, with none matching domains in netlify event headers', () => {
-      const subject = handler({});
-      expect(subject).resolves.toEqual({"body": "{\"status\":\"I'm a teapot\"}", "statusCode": 418});
+      const subject = handler({},config);
+      expect(subject).resolves.toEqual({
+        body: '{"status":"I\'m a teapot"}',
+        statusCode: 418,
+      });
     });
 
     // test('exit early with teapotResponse', () => {
-      // const subject = handler({});
-      // expect(JWT).not.toHaveBeenCalled();
-      // expect(GoogleSpreadsheet).not.toHaveBeenCalled();
-      // expect(DoorbellSpreadsheet).not.toHaveBeenCalled();
+    // const subject = handler({});
+    // expect(JWT).not.toHaveBeenCalled();
+    // expect(GoogleSpreadsheet).not.toHaveBeenCalled();
+    // expect(DoorbellSpreadsheet).not.toHaveBeenCalled();
     // });
 
     test('pixelResponse, with matching domains', () => {
-      const subject = handler(validNetlifyEvent);
-      expect(subject).resolves.toEqual({"body": "{\"status\":\"I'm a teapot\"}", "statusCode": 418});
+      const subject = handler(validNetlifyEvent, config);
+      expect(subject).resolves.toEqual({
+        body: '{"status":"I\'m a teapot"}',
+        statusCode: 418,
+      });
     });
-
   });
-
 });
