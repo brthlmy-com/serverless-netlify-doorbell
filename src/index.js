@@ -34,7 +34,7 @@ async function handler(
       spreadsheetSheetTitle,
     );
     const doorbellAnalytics = new DoorbellAnalytics(event, apexDomain);
-    if (!doorbellAnalytics.isValidDomain && false) {
+    if (!doorbellAnalytics.isValidDomain) {
       return DoorbellAnalytics.teapotResponse;
     } else {
       await doorbellSpreadsheet.handle(doorbellAnalytics.sheetRow);
