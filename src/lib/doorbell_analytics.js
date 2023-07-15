@@ -37,10 +37,12 @@ class DoorbellAnalytics {
       timezone,
       platform,
       brands,
+      referrer,
       time,
     } = this.netlifyQueryStringParameters;
 
     const params = JSON.stringify({
+      referrer,
       search,
       timezone,
       platform,

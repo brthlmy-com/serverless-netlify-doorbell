@@ -17,6 +17,7 @@ describe('Doorbell Analytics', () => {
       search: '',
       time: '',
       timezone: '',
+      referrer: '',
     },
   };
 
@@ -25,6 +26,7 @@ describe('Doorbell Analytics', () => {
     page: '',
     hash: '',
     params: JSON.stringify({
+      referrer: '',
       search: '',
       timezone: '',
       platform: '',
@@ -102,6 +104,7 @@ describe('Doorbell Analytics', () => {
       subject.sheetRow;
       expect(mockToISOString.mock.calls[0]).toEqual([
         {
+          referrer: '',
           brands: '',
           platform: '',
           screen: '',
