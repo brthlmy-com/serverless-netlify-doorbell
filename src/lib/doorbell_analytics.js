@@ -1,11 +1,11 @@
 class DoorbellAnalytics {
   timestamp;
   constructor({headers, queryStringParameters}, domain) {
-    const {host} = headers;
+    const {referer} = headers;
     this.netlifyHeaders = headers;
     this.netlifyQueryStringParameters = queryStringParameters;
-    this.validDomain = `https://${domain}`;
-    this.netlifyReferrer = `https://${host.replace('www.', '')}`;
+    this.validDomain = `https://${domain}/`;
+    this.netlifyReferrer = `https://${referer.replace('www.', '')}`;
   }
   static pixelResponse = {
     statusCode: 200,
