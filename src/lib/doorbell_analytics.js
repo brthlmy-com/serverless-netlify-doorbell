@@ -5,7 +5,7 @@ class DoorbellAnalytics {
     this.netlifyHeaders = headers;
     this.netlifyQueryStringParameters = queryStringParameters;
     this.validDomain = `https://${domain}/`;
-    this.netlifyReferrer = `https://${referer.replace('www.', '')}`;
+    this.netlifyReferrer = `${referer.replace('www.', '')}`;
   }
   static pixelResponse = {
     statusCode: 200,
@@ -18,7 +18,7 @@ class DoorbellAnalytics {
     body: JSON.stringify({status: "I'm a teapot"}),
   };
   get isValidDomain() {
-    return new URL(this.validDomain).host == new URL(this.netlifyReferrer).host;
+    return this.validDomain == this.netlifyReferrer;
   }
   get sheetRow() {
     this.timestamp = new Date().toISOString();
