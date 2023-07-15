@@ -1,7 +1,6 @@
 import {DoorbellSpreadsheet} from './google_spreadsheet.js';
 import {
   GoogleSpreadsheet,
-  GoogleSpreadsheetWorksheet,
 } from 'google-spreadsheet';
 import {JWT} from 'google-auth-library';
 
@@ -75,8 +74,8 @@ describe('Google Spreadsheet', () => {
         return {'my-sheet-title': {addRow: mockAddRow}};
       });
 
-    const subject = new DoorbellSpreadsheet(service, 'my-sheet-title', expectedRow);
-    await subject.handle();
+    const subject = new DoorbellSpreadsheet(service, 'my-sheet-title');
+    await subject.handle(expectedRow);
     expect(mockAddRow).toHaveBeenCalledWith(expectedRow);
   });
 });

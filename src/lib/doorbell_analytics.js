@@ -7,10 +7,20 @@ class DoorbellAnalytics {
     this.validDomain = `https://${domain}`;
     this.netlifyReferrer = `https://${host.replace('www.', '')}`;
   }
-  isValidDomain() {
+  static pixelResponse = {
+    statusCode: 200,
+    body: 'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+    headers: {'content-type': 'image/gif'},
+    isBase64Encoded: true,
+  };
+  static teapotResponse = {
+    statusCode: 418,
+    body: JSON.stringify({status: "I'm a teapot"}),
+  };
+  get isValidDomain() {
     return this.validDomain == this.netlifyReferrer;
   }
-  sheetRow() {
+  get sheetRow() {
     this.timestamp = new Date().toISOString();
     const {
       host,

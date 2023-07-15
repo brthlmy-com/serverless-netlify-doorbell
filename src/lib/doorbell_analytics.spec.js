@@ -11,12 +11,12 @@ describe('Doorbell Analytics', () => {
     queryStringParameters: {
       pathname: '',
       hash: '',
-      brands: undefined,
-      platform: undefined,
-      screen: undefined,
-      search: undefined,
-      time: undefined,
-      timezone: undefined,
+      brands: '',
+      platform: '',
+      screen: '',
+      search: '',
+      time: '',
+      timezone: '',
     },
   };
 
@@ -24,7 +24,14 @@ describe('Doorbell Analytics', () => {
     timestamp: 'timestamp',
     page: '',
     hash: '',
-    params: '{}',
+    params: JSON.stringify({
+      search: '',
+      timezone: '',
+      platform: '',
+      screen: '',
+      brands: '',
+      time: '',
+    }),
     ua: '',
     locale: '',
     country: '',
@@ -39,33 +46,39 @@ describe('Doorbell Analytics', () => {
     expect(() => new DoorbellAnalytics(netlifyHeaders, domain)).not.toThrow();
   });
 
+  describe('statics', () => {
+    test('.teapotResponse', () => {
+      expect(DoorbellAnalytics.teapotResponse).toBeTruthy();
+    });
+
+    test('.pixelResponse', () => {
+      expect(DoorbellAnalytics.pixelResponse).toBeTruthy();
+    });
+  });
+
   describe('.isValidDomain', () => {
     test('with matching domain', () => {
-      const subject = new DoorbellAnalytics(
-        netlifyHeaders,
-        domain,
-      );
-      console.log(subject.isValidDomain());
-      expect(subject.isValidDomain()).toBeTruthy();
+      const subject = new DoorbellAnalytics(netlifyHeaders, domain);
+      expect(subject.isValidDomain).toBeTruthy();
     });
 
     test('without matching domain', () => {
       const subject = new DoorbellAnalytics(netlifyHeaders, 'tld.com');
-      expect(subject.isValidDomain()).toBeFalsy();
+      expect(subject.isValidDomain).toBeFalsy();
     });
   });
+
   describe('.sheetRow', () => {
     test('creates timestamp', () => {
       const subject = new DoorbellAnalytics(netlifyHeaders, domain);
-      const expectedDate = '2023';
+      const expectedDate = 'timestamp';
       const mockToISOString = jest
         .spyOn(Date.prototype, 'toISOString')
         .mockImplementation(() => expectedDate);
-      subject.sheetRow();
+      subject.sheetRow;
       expect(mockToISOString).toHaveBeenCalled();
       expect(subject.timestamp).toEqual(expectedDate);
     });
-
     test('creates referrer with https', () => {
       const subject = new DoorbellAnalytics(netlifyHeaders, domain);
       expect(subject.netlifyReferrer).toEqual(
@@ -86,15 +99,15 @@ describe('Doorbell Analytics', () => {
     test('json stringify original queryStringParameters', () => {
       const subject = new DoorbellAnalytics(netlifyHeaders, domain);
       const mockToISOString = jest.spyOn(JSON, 'stringify');
-      subject.sheetRow();
+      subject.sheetRow;
       expect(mockToISOString.mock.calls[0]).toEqual([
         {
-          brands: undefined,
-          platform: undefined,
-          screen: undefined,
-          search: undefined,
-          time: undefined,
-          timezone: undefined,
+          brands: '',
+          platform: '',
+          screen: '',
+          search: '',
+          time: '',
+          timezone: '',
         },
       ]);
     });
@@ -102,7 +115,7 @@ describe('Doorbell Analytics', () => {
     test('json stringify original queryStringParameters', () => {
       const subject = new DoorbellAnalytics(netlifyHeaders, domain);
       const mockToISOString = jest.spyOn(JSON, 'stringify');
-      subject.sheetRow();
+      subject.sheetRow;
       expect(mockToISOString.mock.calls[1]).toEqual([
         {
           ...netlifyHeaders.headers,
@@ -115,8 +128,8 @@ describe('Doorbell Analytics', () => {
       const mockToISOString = jest
         .spyOn(Date.prototype, 'toISOString')
         .mockImplementation(() => 'timestamp');
-      subject.sheetRow();
-      expect(subject.sheetRow()).toMatchObject(expectedSheetRow);
+      subject.sheetRow;
+      expect(subject.sheetRow).toMatchObject(expectedSheetRow);
     });
   });
 });

@@ -1,15 +1,14 @@
 class DoorbellSpreadsheet {
-  constructor(googleSpreadsheet, sheetTitle, sheetRow) {
+  constructor(googleSpreadsheet, sheetTitle) {
     this.spreadsheetService = googleSpreadsheet;
     this.sheetTitle = sheetTitle;
-    this.row = sheetRow;
   }
 
-  handle = async () => {
+  handle = async (sheetRow) => {
     await this.spreadsheetService.loadInfo();
     const sheet = this.spreadsheetService.sheetsByTitle[this.sheetTitle];
     if(sheet) {
-      await sheet?.addRow(this.row);
+      await sheet?.addRow(sheetRow);
     }
   };
 }
